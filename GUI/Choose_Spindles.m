@@ -1337,13 +1337,13 @@ disp('Select .edf recording file');
 [fname_edf, fpath_edf] = uigetfile('*.edf');
 disp('Select .txt scoring file');
 [fname_s, fpath_s] = uigetfile('*.txt');
-def_answers = {'8', '16', '300', '250', '0.1', '0.8'};
+def_answers = {'8', '16', '300', '250', '0.1', '0.8', '0.01', '0.01'};
 temp = false;
 while (temp~= true)
-    temp_answers = inputdlg({'Lower Frequency Band Range (Hz)', 'Upper Frequency Band Range (Hz)', 'Window Length (frames)', 'Window Overlap (frames)', 'Lower Bound of Threshold (0-1)', 'Upper Bound of Threshold (0-1)'}, 'InformationInput', 1, def_answers);
+    temp_answers = inputdlg({'Lower Frequency Band Range (Hz)', 'Upper Frequency Band Range (Hz)', 'Window Length (frames)', 'Window Overlap (frames)', 'Lower Bound of Thresholds (0-1)', 'Upper Bound of Thresholds (0-1)', 'Higher Threshold Step Size', 'Lower Threshold Step Size'}, 'InformationInput', 1, def_answers);
     temp = true;
     if(isempty(temp_answers) == false)
-        for i=1:6
+        for i=1:8
             if isnan(str2double(temp_answers{i})) == true
                 temp = false;
             else
@@ -1353,7 +1353,7 @@ while (temp~= true)
     end
 end
 if (isempty(temp_answers) == true)
-    for i=1:6
+    for i=1:8
         temp_answers{i} = str2double(def_answers{i});
     end
 end
@@ -1363,6 +1363,8 @@ wl = temp_answers{3};
 wo = temp_answers{4};
 ut1 = temp_answers{5};
 ut2 = temp_answers{6};
+utstep = temp_answers{7};
+ltstep = temp_answers{8};
 
 if (isempty(ch) || isempty(epoch))
 def_answers = {'1', '10'};
@@ -1388,7 +1390,7 @@ end
 ch = temp_answers{1};
 epoch = temp_answers{2};
 end
-Spindle_STFT_Revision_Modularized(ch, epoch, fpath_edf, fname_edf, fpath_s, fname_s, b1, b2, wl, wo, ut1, ut2);
+Spindle_STFT_Revision_Modularized_new(ch, epoch, fpath_edf, fname_edf, fpath_s, fname_s, b1, b2, wl, wo, ut1, ut2, utstep, ltstep);
 
 
 % --- Executes on button press in stftanalytics.
@@ -1402,13 +1404,13 @@ disp('Choose edf file for data');
 [fname_edf, ~] = uigetfile('*.edf');
 disp('Choose folder for STFT results');
 fpath_fold = uigetdir;
-def_answers = {'8', '16', '300', '250', '0.1', '0.8', '0.2'};
+def_answers = {'8', '16', '300', '250', '0.1', '0.8', '0.01', '0.01', '0.2'};
 temp = false;
 while (temp~= true)
-    temp_answers = inputdlg({'Lower Frequency Band Range (Hz)', 'Upper Frequency Band Range (Hz)', 'Window Length (frames)', 'Window Overlap (frames)', 'Lower Bound of Threshold (0-1)', 'Upper Bound of Threshold (0-1)', 'False Negative Tolerance (0-1)'}, 'InformationInput', 1, def_answers);
+    temp_answers = inputdlg({'Lower Frequency Band Range (Hz)', 'Upper Frequency Band Range (Hz)', 'Window Length (frames)', 'Window Overlap (frames)', 'Lower Bound of Threshold (0-1)', 'Upper Bound of Threshold (0-1)', 'Higher Threshold Step Size', 'Lower Threshold Step Size', 'False Negative Tolerance (0-1)'}, 'InformationInput', 1, def_answers);
     temp = true;
     if(isempty(temp_answers) == false)
-        for i=1:7
+        for i=1:9
             if isnan(str2double(temp_answers{i})) == true
                 temp = false;
             else
@@ -1418,7 +1420,7 @@ while (temp~= true)
     end
 end
 if (isempty(temp_answers) == true)
-    for i=1:7
+    for i=1:9
         temp_answers{i} = str2double(def_answers{i});
     end
 end
@@ -1428,5 +1430,7 @@ wl = temp_answers{3};
 wo = temp_answers{4};
 ut1 = temp_answers{5};
 ut2 = temp_answers{6};
-maxfn = temp_answers{7};
-Spindle_Analytics_STFT_Revision_Modularized(fname_sp, fpath_sp, fpath_fold, fname_edf, b1, b2, wl, wo, ut1, ut2, maxfn);
+utstep = temp_answers{7};
+ltstep = temp_answers{8};
+maxfn = temp_answers{9};
+Spindle_Analytics_STFT_Revision_Modularized_new(fname_sp, fpath_sp, fpath_fold, fname_edf, b1, b2, wl, wo, ut1, ut2, utstep, ltstep, maxfn);
