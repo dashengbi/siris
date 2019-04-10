@@ -4,7 +4,7 @@ temp = load(strcat(fpath_sp, fname_sp));
 standard_labels = temp.spindle_points;
 fname_sp = fname_edf;
 
-identifier=input('Identifier (text):');
+identifier=input('Identifier for this Revision round (text):', 's');
 analytics_length = input('Analytics Length (frames):');
 starttime = input('Start Time (frames):');
 
@@ -83,7 +83,7 @@ ax2 = axes('Position',[.3 .1 .6 .8]);
 histogram(overlap{v(i), u(i)}(:, 3), 0:10:100);
 axes(ax1);
 text(.025, 0.6, stats_txt);
-savefig(strcat(fpath_sp, '\', fname_sp(1:end-4), identifier, 'STFT_', num2str(v(i)/100), '-', num2str(u(i)/100), '_Histogram', '.fig'));
+savefig(strcat(fpath_s, '\', fname_sp(1:end-4), identifier, 'STFT_', num2str(v(i)/100), '-', num2str(u(i)/100), '_Histogram', '.fig'));
 end
 close;
 

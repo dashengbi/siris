@@ -1325,6 +1325,7 @@ set(newAxes, 'Position', get(groot, 'DefaultAxesPosition'));
 % savefig(fignew, input('Name:'));
 print('-painters', '-dmeta', strcat(input('Name:'), '.emf'))
 delete(fignew);
+msgbox('Current axes saved.');
 
 
 % --- Executes on button press in runstft.
@@ -1333,9 +1334,11 @@ function runstft_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global ch epoch fname_edf fpath_edf fname_s fpath_s;
-disp('Select .edf recording file');
+msgbox('Select .edf recording file');
+uiwait(gcf);
 [fname_edf, fpath_edf] = uigetfile('*.edf');
-disp('Select .txt scoring file');
+msgbox('Select .txt scoring file');
+uiwait(gcf);
 [fname_s, fpath_s] = uigetfile('*.txt');
 def_answers = {'8', '16', '300', '250', '0.1', '0.8', '0.01', '0.01'};
 temp = false;
@@ -1398,11 +1401,14 @@ function stftanalytics_Callback(hObject, eventdata, handles)
 % hObject    handle to stftanalytics (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-disp('Choose Labelling Set to Evaluate Against');
+msgbox('Choose Labelling Set to Evaluate Against');
+uiwait(gcf);
 [fname_sp, fpath_sp] = uigetfile('*.mat');
-disp('Choose edf file for data');
+msgbox('Choose edf file for data');
+uiwait(gcf);
 [fname_edf, ~] = uigetfile('*.edf');
-disp('Choose folder for STFT results');
+msgbox('Choose folder for STFT results (folder directly containing STFT labels)');
+uiwait(gcf);
 fpath_fold = uigetdir;
 def_answers = {'8', '16', '300', '250', '0.1', '0.8', '0.01', '0.01', '0.2'};
 temp = false;
